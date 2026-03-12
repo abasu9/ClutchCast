@@ -1,73 +1,143 @@
-# React + TypeScript + Vite
+## ClutchCast 🏀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**ClutchCast** is an AI-powered March Madness companion that:
 
-Currently, two official plugins are available:
+- **Pulls live (or historical) NCAA play‑by‑play data**
+- **Detects momentum swings and key moments in a game**
+- **Generates multiple styles of AI commentary** (hype caster, analyst, casual fan) via **Ollama**
+- **Speaks the commentary aloud** using the browser’s speech synthesis
+- **Builds a full narrative recap** of the entire game
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Built with **React + TypeScript + Vite** and a lightweight custom momentum engine.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Features
 
-## Expanding the ESLint configuration
+- **Game Loader**
+  - Enter an NCAA `gameId` or pick from curated famous games.
+  - Fetches play‑by‑play data from the NCAA API (proxied via Vite).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Momentum Timeline**
+  - Visual timeline of scoring runs and momentum swings.
+  - Click any key moment to generate tailored commentary.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **AI Commentary Personas**
+  - `hype`: loud, over‑the‑top broadcaster style.
+  - `analyst`: calm, tactical breakdown with basketball terminology.
+  - `casual`: group‑chat / Twitter‑style reactions with slang and emojis.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Approval Workflow**
+  - Generate commentary for a moment, review/edit in an approval modal, then save.
+  - All approved lines are displayed in an `ApprovedCommentary` panel.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Full Game Story**
+  - Generate a multi‑paragraph recap of the whole game from all detected key moments.
+  - Optional **bias warnings** if the AI over‑focuses on one team.
+
+- **Text‑to‑Speech**
+  - Uses the Web Speech API to read commentary and the full story aloud.
+  - Prefers high‑quality local English voices on macOS (e.g. `Samantha`, `Alex`).
+
+---
+
+### Architecture Overview
+
+- **Frontend**: React + TypeScript + Vite
+- **Key modules**
+  - `src/utils/ncaaApi.ts` – fetches and normalizes NCAA play‑by‑play data (via `/ncaa-api` proxy) and provides mock data for demos.
+  - `src/utils/momentumEngine.ts` – processes raw plays into momentum swings and key moments.
+  - `src/utils/ollamaService.ts` – builds persona‑specific prompts and calls a proxied Ollama endpoint (`/ollama-api/api/generate`) using the `llama3` model.
+  - `src/utils/speechService.ts` – thin wrapper over the browser’s `speechSynthesis` API.
+  - `src/components/*` – UI components for the loader, timeline, cards, persona selector, approval modal, full story, etc.
+  - `src/types/index.ts` – shared TypeScript types for plays, games, personas, and commentary responses.
+
+There is **no separate backend** in this project; Vite’s dev server proxy is used to reach the NCAA API and local Ollama instance.
+
+---
+
+### Prerequisites
+
+- **Node.js** 18+ (recommended)  
+- **npm** (or another Node package manager)
+- **Ollama** installed and running locally, with a `llama3` model pulled:
+
+```bash
+ollama pull llama3
+ollama serve
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **NCAA API access / proxy**  
+  The frontend expects a proxy at `/ncaa-api` that forwards requests to the real NCAA play‑by‑play API. In development this is typically configured via Vite’s `server.proxy` in `vite.config.ts`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Getting Started (Development)
+
+1. **Install dependencies**
+
+```bash
+npm install
 ```
+
+2. **Ensure Ollama is running locally**
+
+```bash
+ollama serve
+```
+
+3. **Configure Vite proxy (if needed)**
+
+Check `vite.config.ts` and adjust the proxy targets for:
+
+- `/ncaa-api` → NCAA play‑by‑play API
+- `/ollama-api` → local Ollama HTTP endpoint (e.g. `http://localhost:11434`)
+
+4. **Run the dev server**
+
+```bash
+npm run dev
+```
+
+Then open the printed local URL in your browser.
+
+---
+
+### Usage
+
+1. **Load a game**
+   - Use the game loader to paste an NCAA `gameId`, or pick one of the built‑in famous games from `FAMOUS_GAMES` in `src/utils/ncaaApi.ts`.
+2. **Explore momentum**
+   - Inspect the momentum timeline and moment cards showing swings and scoring runs.
+3. **Generate commentary**
+   - Select a **voice persona**, click a key moment on the timeline/cards, and wait for AI commentary from Ollama.
+   - Review/edit the text in the approval modal and approve to save.
+4. **Tell the full story**
+   - Once key moments are available, open **Full Story** and generate a narrated recap for the entire game.
+5. **Listen to it**
+   - Use the read‑aloud controls on commentary/full‑story to have the browser speak the text.
+
+---
+
+### Scripts
+
+```bash
+npm run dev      # start Vite dev server
+npm run build    # type‑check and build for production
+npm run preview  # preview the production build
+npm run lint     # run ESLint
+```
+
+---
+
+### Notes & Limitations
+
+- **Local only by default** – This project is wired to a local NCAA proxy and local Ollama instance. To deploy it, you’ll need to replace those with hosted equivalents or server‑side APIs.
+- **Browser speech support** – Text‑to‑speech depends on the Web Speech API; some browsers or platforms may have limited voice options.
+- **Model behavior** – Commentary quality and style depend heavily on the Ollama model (`llama3`) and prompt design in `src/utils/ollamaService.ts`.
+
+---
+
+### License
+
+This project is licensed under the terms of the LICENSE file included in the repository.
