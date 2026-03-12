@@ -1,0 +1,121 @@
+.game-loader {
+  padding: 2rem;
+  text-align: center;
+}
+
+.game-loader h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.game-id-form {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.game-id-input {
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: #fff;
+  min-width: 280px;
+  transition: border-color 0.3s;
+}
+
+.game-id-input:focus {
+  outline: none;
+  border-color: #ff6b00;
+}
+
+.game-id-input::placeholder {
+  color: #666;
+}
+
+.load-btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ff6b00, #ff8533);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.load-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.4);
+}
+
+.load-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.famous-games {
+  margin-top: 2rem;
+}
+
+.famous-games h3 {
+  color: #aaa;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.famous-games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.famous-game-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.5rem;
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+}
+
+.famous-game-btn:hover:not(:disabled) {
+  border-color: #ff6b00;
+  background: #252525;
+  transform: translateY(-2px);
+}
+
+.famous-game-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.game-year {
+  font-size: 0.8rem;
+  color: #ff6b00;
+  font-weight: 700;
+}
+
+.game-name {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.game-desc {
+  font-size: 0.85rem;
+  color: #888;
+}

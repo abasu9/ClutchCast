@@ -1,0 +1,81 @@
+.voice-persona-selector {
+  padding: 1rem 1.5rem;
+  background: #111;
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
+}
+
+.voice-persona-selector h3 {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.personas-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.persona-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 130px;
+}
+
+.persona-btn:hover {
+  border-color: #ff6b00;
+  background: #222;
+}
+
+.persona-btn.selected {
+  border-color: #ff6b00;
+  background: rgba(255, 107, 0, 0.1);
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
+}
+
+.persona-icon {
+  font-size: 1.5rem;
+}
+
+.persona-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.persona-desc {
+  font-size: 0.7rem;
+  color: #888;
+  text-align: center;
+}
+
+.persona-btn.selected .persona-name {
+  color: #ff6b00;
+}
+
+@media (max-width: 480px) {
+  .personas-row {
+    flex-direction: column;
+  }
+  
+  .persona-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .persona-desc {
+    text-align: left;
+  }
+}

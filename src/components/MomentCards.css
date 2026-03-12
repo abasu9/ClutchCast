@@ -1,0 +1,192 @@
+.moment-cards {
+  padding: 1.5rem;
+}
+
+.moment-cards h2 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.moment-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #111;
+  border: 2px solid #2a2a2a;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.moment-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 107, 0, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.moment-card:hover:not(:disabled) {
+  border-color: #ff6b00;
+  transform: translateY(-4px);
+}
+
+.moment-card:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.moment-card.selected {
+  border-color: #ff6b00;
+  background: #1a1a1a;
+  box-shadow: 0 0 30px rgba(255, 107, 0, 0.3);
+}
+
+.moment-card.selected::before {
+  opacity: 1;
+}
+
+.moment-card.generating {
+  animation: glow 1.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 107, 0, 0.6);
+  }
+}
+
+.moment-card:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.moment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.moment-rank {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ff6b00;
+}
+
+.moment-tag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 107, 0, 0.2);
+  border-radius: 4px;
+  color: #ff6b00;
+}
+
+.moment-time {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.moment-score {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.moment-desc {
+  font-size: 0.85rem;
+  color: #aaa;
+  line-height: 1.4;
+  min-height: 40px;
+}
+
+.moment-momentum {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.momentum-label {
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.momentum-bar {
+  flex: 1;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.momentum-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b00, #ff8533);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+.momentum-value {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ff6b00;
+  min-width: 24px;
+  text-align: right;
+}
+
+.click-hint {
+  font-size: 0.75rem;
+  color: #666;
+  text-align: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid #2a2a2a;
+  margin-top: 0.5rem;
+}
+
+.generating-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #ff6b00;
+  padding-top: 0.5rem;
+  border-top: 1px solid #2a2a2a;
+  margin-top: 0.5rem;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #333;
+  border-top-color: #ff6b00;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
